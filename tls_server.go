@@ -8,6 +8,10 @@ import (
 	"net/http"
 )
 
+/**
+ * client与server双向加密
+ */
+
 func main() {
 	pool := x509.NewCertPool()
 	caCertPath := "./cfssl/ca.pem"
@@ -20,10 +24,10 @@ func main() {
 	pool.AppendCertsFromPEM(caCrt)
 
 	s := &http.Server{
-		Addr: ":8889",
+		Addr:    ":8889",
 		Handler: &handler{},
 		TLSConfig: &tls.Config{
-			ClientCAs: pool,
+			ClientCAs:  pool,
 			ClientAuth: tls.RequireAndVerifyClientCert,
 		},
 	}
@@ -34,8 +38,8 @@ func main() {
 	}
 }
 
-type handler struct {}
+type handler struct{}
 
-func (h *handler)ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi, This is an example of http service in golang!\n")
 }

@@ -8,6 +8,9 @@ import (
 	"net/http"
 )
 
+/**
+ * client与server双向加密
+ */
 func main() {
 	pool := x509.NewCertPool()
 	caCertPath := "./cfssl/ca.pem"
@@ -25,10 +28,9 @@ func main() {
 		return
 	}
 
-
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{
-			RootCAs: pool,
+			RootCAs:      pool,
 			Certificates: []tls.Certificate{cliCrt},
 		},
 	}
